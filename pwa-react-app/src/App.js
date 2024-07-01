@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, []);
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>PWA React App</h1>
-        <p>Count: {count}</p>
-        <button onClick={() => setCount(count + 1)}>Increment</button>
+        <ul>
+          {data.map((post) => (
+            <li key={post.id}>{post.title}</li>
+          ))}
+        </ul>
       </header>
     </div>
   );
